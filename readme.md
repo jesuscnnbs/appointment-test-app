@@ -87,3 +87,16 @@ php artisan test
 - Original work by Jonathan Reinink (@reinink) and contributors
 - Port to Ruby on Rails by Georg Ledermann (@ledermann)
 - Port to React by Lio (@liorocks)
+
+
+### Modelos
+
+Creamos el modelo Cliente con migración
+```
+php artisan make:model Client -m
+```
+Creamos el modelo Cita con migración
+
+```
+php artisan make:model Appointment -m
+```
