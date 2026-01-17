@@ -6,49 +6,40 @@ export interface User {
   first_name: string;
   last_name: string;
   email: string;
-  owner: string;
+  role: 'admin' | 'reservation' | 'doctor';
+  owner: boolean;
   photo: string;
   deleted_at: string;
-  account: Account;
 }
 
-export interface Account {
+export interface Client {
   id: number;
-  name: string;
-  users: User[];
-  contacts: Contact[];
-  organizations: Organization[];
+  codigo: string;
+  razon_social: string;
+  cif: string;
+  direccion: string;
+  municipio: string;
+  provincia: string;
+  fecha_inicio_contrato: string;
+  fecha_expiracion_contrato: string;
+  reconocimientos_incluidos: number;
+  created_at: string;
+  updated_at: string;
+  appointments?: Appointment[];
 }
 
-export interface Contact {
+export interface Appointment {
   id: number;
-  name: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: string;
-  address: string;
-  city: string;
-  region: string;
-  country: string;
-  postal_code: string;
-  deleted_at: string;
-  organization_id: number;
-  organization: Organization;
-}
-
-export interface Organization {
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
-  address: string;
-  city: string;
-  region: string;
-  country: string;
-  postal_code: string;
-  deleted_at: string;
-  contacts: Contact[];
+  client_id: number;
+  fecha: string;
+  reconocimientos_reservados: number;
+  reconocimientos_realizados: number;
+  hora_inicio: string;
+  estado: 'pendiente' | 'confirmada' | 'realizada' | 'cancelada';
+  notas: string | null;
+  created_at: string;
+  updated_at: string;
+  client?: Client;
 }
 
 export type PaginatedData<T> = {
