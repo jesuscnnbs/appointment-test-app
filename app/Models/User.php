@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -25,6 +24,7 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
+        'role',
         'photo',
     ];
 
@@ -54,11 +54,6 @@ class User extends Authenticatable
     public function resolveRouteBinding($value, $field = null)
     {
         return $this->where($field ?? 'id', $value)->withTrashed()->firstOrFail();
-    }
-
-    public function account(): BelongsTo
-    {
-        return $this->belongsTo(Account::class);
     }
 
     public function getNameAttribute()

@@ -22,7 +22,6 @@ return new class extends Migration
             $table->date('fecha_inicio_contrato');
             $table->date('fecha_expiracion_contrato');
             $table->integer('reconocimientos_incluidos')->default(0);
-            $table->enum('role', ['admin', 'cliente', 'medico'])->default('cliente');
             $table->timestamps();
         });
     }
