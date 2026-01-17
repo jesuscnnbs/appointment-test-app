@@ -1,0 +1,127 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Appointment;
+use App\Models\Client;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
+use Inertia\Inertia;
+use Inertia\Response;
+
+class AppointmentsController extends Controller
+{
+    public function index(): Response
+    {
+        return Inertia::render('Appointments/Index', [
+            'filters' => Request::all('search', 'estado'),
+            'appointments' => Appointment::query()
+                ->with('client:id,razon_social')
+                ->orderBy('fecha', 'desc')
+                ->orderBy('hora_inicio', 'desc')
+                ->when(Request::input('search'), function ($query, $search) {
+                    $query->whereHas('client', function ($q) use ($search) {
+                        $q->where('razon_social', 'like', "%{$search}%")
+                          ->orWhere('codigo', 'like', "%{$search}%");
+                    });
+                })
+                ->when(Request::input('estado'), function ($query, $estado) {
+                    $query->where('estado', $estado);
+                })
+                ->paginate(10)
+                ->withQueryString()
+                ->through(fn ($appointment) => [
+                    'id' => $appointment->id,
+                    'client_id' => $appointment->client_id,
+                    'client' => $appointment->client ? [
+                        'id' => $appointment->client->id,
+                        'razon_social' => $appointment->client->razon_social,
+                    ] : null,
+                    'fecha' => $appointment->fecha,
+                    'reconocimientos_reservados' => $appointment->reconocimientos_reservados,
+                    'reconocimientos_realizados' => $appointment->reconocimientos_realizados,
+                    'hora_inicio' => $appointment->hora_inicio,
+                    'estado' => $appointment->estado,
+                    'notas' => $appointment->notas,
+                ]),
+        ]);
+    }
+
+    public function create(): Response
+    {
+        return Inertia::render('Appointments/Create', [
+            'clients' => Client::orderBy('razon_social')
+                ->get()
+                ->map(fn ($client) => [
+                    'id' => $client->id,
+                    'razon_social' => $client->razon_social,
+                    'codigo' => $client->codigo,
+                ]),
+        ]);
+    }
+
+    public function store(): RedirectResponse
+    {
+        $validated = Request::validate([
+            'client_id' => ['required', 'exists:clients,id'],
+            'fecha' => ['required', 'date'],
+            'reconocimientos_reservados' => ['required', 'integer', 'min:1'],
+            'reconocimientos_realizados' => ['required', 'integer', 'min:0'],
+            'hora_inicio' => ['required', 'date_format:H:i'],
+            'estado' => ['required', 'in:pendiente,confirmada,realizada,cancelada'],
+            'notas' => ['nullable', 'string'],
+        ]);
+
+        Appointment::create($validated);
+
+        return Redirect::route('appointments')->with('success', 'Appointment created.');
+    }
+
+    public function edit(Appointment $appointment): Response
+    {
+        return Inertia::render('Appointments/Edit', [
+            'appointment' => [
+                'id' => $appointment->id,
+                'client_id' => $appointment->client_id,
+                'fecha' => $appointment->fecha->format('Y-m-d'),
+                'reconocimientos_reservados' => $appointment->reconocimientos_reservados,
+                'reconocimientos_realizados' => $appointment->reconocimientos_realizados,
+                'hora_inicio' => $appointment->hora_inicio,
+                'estado' => $appointment->estado,
+                'notas' => $appointment->notas,
+            ],
+            'clients' => Client::orderBy('razon_social')
+                ->get()
+                ->map(fn ($client) => [
+                    'id' => $client->id,
+                    'razon_social' => $client->razon_social,
+                    'codigo' => $client->codigo,
+                ]),
+        ]);
+    }
+
+    public function update(Appointment $appointment): RedirectResponse
+    {
+        $validated = Request::validate([
+            'client_id' => ['required', 'exists:clients,id'],
+            'fecha' => ['required', 'date'],
+            'reconocimientos_reservados' => ['required', 'integer', 'min:1'],
+            'reconocimientos_realizados' => ['required', 'integer', 'min:0'],
+            'hora_inicio' => ['required', 'date_format:H:i'],
+            'estado' => ['required', 'in:pendiente,confirmada,realizada,cancelada'],
+            'notas' => ['nullable', 'string'],
+        ]);
+
+        $appointment->update($validated);
+
+        return Redirect::back()->with('success', 'Appointment updated.');
+    }
+
+    public function destroy(Appointment $appointment): RedirectResponse
+    {
+        $appointment->delete();
+
+        return Redirect::back()->with('success', 'Appointment deleted.');
+    }
+}

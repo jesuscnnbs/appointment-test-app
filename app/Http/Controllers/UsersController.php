@@ -22,7 +22,7 @@ class UsersController extends Controller
         return Inertia::render('Users/Index', [
             'filters' => Request::all('search', 'role', 'trashed'),
             'users' => new UserCollection(
-                Auth::user()->account->users()
+                User::query()
                     ->orderByName()
                     ->filter(Request::only('search', 'role', 'trashed'))
                     ->paginate()
@@ -38,7 +38,7 @@ class UsersController extends Controller
 
     public function store(UserStoreRequest $request): RedirectResponse
     {
-        $user = Auth::user()->account->users()->create(
+        $user = User::create(
             $request->validated()
         );
 

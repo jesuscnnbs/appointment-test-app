@@ -43,7 +43,7 @@ test-coverage:
 note:
 	@echo "\n======================================== [NOTE] ========================================"
 	@echo "You're ready to go! Visit Ping CRM in your browser, and login with:					 "
-	@echo "[*] Username: johndoe@example.com														 "
+	@echo "[*] Username: admin@example.com														 "
 	@echo "[*] Password: secret"
 	@echo "========================================================================================\n"
 

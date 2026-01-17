@@ -71,7 +71,7 @@ php artisan serve
 
 You're ready to go! [Visit Ping CRM](http://127.0.0.1:8000/) in your browser, and login with:
 
-- **Username:** johndoe@example.com
+- **Username:** admin@example.com
 - **Password:** secret
 
 ## Running tests
@@ -99,4 +99,19 @@ Creamos el modelo Cita con migración
 
 ```
 php artisan make:model Appointment -m
+```
+
+Crear controladores
+
+```
+php artisan make:controller ClientsController
+
+php artisan make:controller AppointmentsController
+```
+
+Crear Collections
+```
+php artisan make:resource ClientCollection
+
+php artisan make:resource AppointmentCollection
 ```
