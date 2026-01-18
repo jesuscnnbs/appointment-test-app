@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Account;
 use App\Models\User;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
@@ -13,27 +12,25 @@ class UsersTest extends TestCase
     {
         parent::setUp();
 
-        $account = Account::create(['name' => 'Acme Corporation']);
-
-        $this->user = User::factory()->make([
-            'account_id' => $account->id,
+        $this->user = User::factory()->create([
             'first_name' => 'John',
             'last_name' => 'Doe',
-            'email' => 'johndoe@example.com',
+            'email' => 'admin@example.com',
+            'role' => 'admin',
             'owner' => true,
         ]);
     }
 
     public function test_can_view_users()
     {
-        User::factory()->count(5)->create(['account_id' => 1]);
+        User::factory()->count(5)->create();
 
         $this->actingAs($this->user)
             ->get('/users')
             ->assertStatus(200)
             ->assertInertia(function (Assert $page) {
                 $page->component('Users/Index');
-                $page->has('users.data', 5, function (Assert $page) {
+                $page->has('users.data', 6, function (Assert $page) {
                     $page->hasAll(['id', 'name', 'email', 'owner', 'photo', 'deleted_at']);
                 });
             });
@@ -41,9 +38,9 @@ class UsersTest extends TestCase
 
     public function test_can_search_for_users()
     {
-        User::factory()->count(5)->create(['account_id' => 1]);
+        User::factory()->count(5)->create();
 
-        User::first()->update([
+        User::where('email', '!=', 'admin@example.com')->first()->update([
             'first_name' => 'Greg',
             'last_name' => 'Andersson',
         ]);
@@ -61,28 +58,28 @@ class UsersTest extends TestCase
 
     public function test_cannot_view_deleted_users()
     {
-        User::factory()->count(5)->create(['account_id' => 1]);
-        User::first()->delete();
+        User::factory()->count(5)->create();
+        User::where('email', '!=', 'admin@example.com')->first()->delete();
 
         $this->actingAs($this->user)
             ->get('/users')
             ->assertStatus(200)
             ->assertInertia(function (Assert $page) {
-                $page->has('users.data', 4);
+                $page->has('users.data', 5);
             });
     }
 
     public function test_can_filter_to_view_deleted_users()
     {
-        User::factory()->count(5)->create(['account_id' => 1]);
-        User::first()->delete();
+        User::factory()->count(5)->create();
+        User::where('email', '!=', 'admin@example.com')->first()->delete();
 
         $this->actingAs($this->user)
             ->get('/users?trashed=with')
             ->assertStatus(200)
             ->assertInertia(function (Assert $page) {
                 $page->where('filters.trashed', 'with');
-                $page->has('users.data', 5);
+                $page->has('users.data', 6);
             });
     }
 }
