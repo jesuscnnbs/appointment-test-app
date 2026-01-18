@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ClientCollection;
 use App\Models\Client;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -15,27 +16,17 @@ class ClientsController extends Controller
     {
         return Inertia::render('Clients/Index', [
             'filters' => Request::all('search'),
-            'clients' => Client::query()
-                ->orderBy('razon_social')
-                ->when(Request::input('search'), function ($query, $search) {
-                    $query->where('razon_social', 'like', "%{$search}%")
-                        ->orWhere('codigo', 'like', "%{$search}%")
-                        ->orWhere('cif', 'like', "%{$search}%");
-                })
-                ->paginate(10)
-                ->withQueryString()
-                ->through(fn ($client) => [
-                    'id' => $client->id,
-                    'codigo' => $client->codigo,
-                    'razon_social' => $client->razon_social,
-                    'cif' => $client->cif,
-                    'direccion' => $client->direccion,
-                    'municipio' => $client->municipio,
-                    'provincia' => $client->provincia,
-                    'fecha_inicio_contrato' => $client->fecha_inicio_contrato,
-                    'fecha_expiracion_contrato' => $client->fecha_expiracion_contrato,
-                    'reconocimientos_incluidos' => $client->reconocimientos_incluidos,
-                ]),
+            'clients' => new ClientCollection(
+                Client::query()
+                    ->orderBy('razon_social')
+                    ->when(Request::input('search'), function ($query, $search) {
+                        $query->where('razon_social', 'like', "%{$search}%")
+                            ->orWhere('codigo', 'like', "%{$search}%")
+                            ->orWhere('cif', 'like', "%{$search}%");
+                    })
+                    ->paginate(10)
+                    ->appends(Request::all())
+            ),
         ]);
     }
 

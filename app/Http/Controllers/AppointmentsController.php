@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AppointmentCollection;
 use App\Models\Appointment;
 use App\Models\Client;
 use Illuminate\Http\RedirectResponse;
@@ -16,35 +17,23 @@ class AppointmentsController extends Controller
     {
         return Inertia::render('Appointments/Index', [
             'filters' => Request::all('search', 'estado'),
-            'appointments' => Appointment::query()
-                ->with('client:id,razon_social')
-                ->orderBy('fecha', 'desc')
-                ->orderBy('hora_inicio', 'desc')
-                ->when(Request::input('search'), function ($query, $search) {
-                    $query->whereHas('client', function ($q) use ($search) {
-                        $q->where('razon_social', 'like', "%{$search}%")
-                          ->orWhere('codigo', 'like', "%{$search}%");
-                    });
-                })
-                ->when(Request::input('estado'), function ($query, $estado) {
-                    $query->where('estado', $estado);
-                })
-                ->paginate(10)
-                ->withQueryString()
-                ->through(fn ($appointment) => [
-                    'id' => $appointment->id,
-                    'client_id' => $appointment->client_id,
-                    'client' => $appointment->client ? [
-                        'id' => $appointment->client->id,
-                        'razon_social' => $appointment->client->razon_social,
-                    ] : null,
-                    'fecha' => $appointment->fecha,
-                    'reconocimientos_reservados' => $appointment->reconocimientos_reservados,
-                    'reconocimientos_realizados' => $appointment->reconocimientos_realizados,
-                    'hora_inicio' => $appointment->hora_inicio,
-                    'estado' => $appointment->estado,
-                    'notas' => $appointment->notas,
-                ]),
+            'appointments' => new AppointmentCollection(
+                Appointment::query()
+                    ->with('client:id,razon_social')
+                    ->orderBy('fecha', 'desc')
+                    ->orderBy('hora_inicio', 'desc')
+                    ->when(Request::input('search'), function ($query, $search) {
+                        $query->whereHas('client', function ($q) use ($search) {
+                            $q->where('razon_social', 'like', "%{$search}%")
+                              ->orWhere('codigo', 'like', "%{$search}%");
+                        });
+                    })
+                    ->when(Request::input('estado'), function ($query, $estado) {
+                        $query->where('estado', $estado);
+                    })
+                    ->paginate(10)
+                    ->appends(Request::all())
+            ),
         ]);
     }
 
