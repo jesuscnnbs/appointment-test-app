@@ -14,6 +14,19 @@ class AppointmentCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return $this->collection->map(fn ($appointment) => [
+            'id' => $appointment->id,
+            'client_id' => $appointment->client_id,
+            'client' => $appointment->client ? [
+                'id' => $appointment->client->id,
+                'razon_social' => $appointment->client->razon_social,
+            ] : null,
+            'fecha' => $appointment->fecha,
+            'reconocimientos_reservados' => $appointment->reconocimientos_reservados,
+            'reconocimientos_realizados' => $appointment->reconocimientos_realizados,
+            'hora_inicio' => $appointment->hora_inicio,
+            'estado' => $appointment->estado,
+            'notas' => $appointment->notas,
+        ])->toArray();
     }
 }
