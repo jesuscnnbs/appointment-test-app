@@ -1,11 +1,10 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\ContactsController;
+use App\Http\Controllers\ClientsController;
+use App\Http\Controllers\AppointmentsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImagesController;
-use App\Http\Controllers\OrganizationsController;
-use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -69,70 +68,56 @@ Route::put('users/{user}/restore', [UsersController::class, 'restore'])
     ->name('users.restore')
     ->middleware('auth');
 
-// Organizations
+// Clients
 
-Route::get('organizations', [OrganizationsController::class, 'index'])
-    ->name('organizations')
+Route::get('clients', [ClientsController::class, 'index'])
+    ->name('clients')
     ->middleware('auth');
 
-Route::get('organizations/create', [OrganizationsController::class, 'create'])
-    ->name('organizations.create')
+Route::get('clients/create', [ClientsController::class, 'create'])
+    ->name('clients.create')
     ->middleware('auth');
 
-Route::post('organizations', [OrganizationsController::class, 'store'])
-    ->name('organizations.store')
+Route::post('clients', [ClientsController::class, 'store'])
+    ->name('clients.store')
     ->middleware('auth');
 
-Route::get('organizations/{organization}/edit', [OrganizationsController::class, 'edit'])
-    ->name('organizations.edit')
+Route::get('clients/{client}/edit', [ClientsController::class, 'edit'])
+    ->name('clients.edit')
     ->middleware('auth');
 
-Route::put('organizations/{organization}', [OrganizationsController::class, 'update'])
-    ->name('organizations.update')
+Route::put('clients/{client}', [ClientsController::class, 'update'])
+    ->name('clients.update')
     ->middleware('auth');
 
-Route::delete('organizations/{organization}', [OrganizationsController::class, 'destroy'])
-    ->name('organizations.destroy')
+Route::delete('clients/{client}', [ClientsController::class, 'destroy'])
+    ->name('clients.destroy')
     ->middleware('auth');
 
-Route::put('organizations/{organization}/restore', [OrganizationsController::class, 'restore'])
-    ->name('organizations.restore')
+// Appointments
+
+Route::get('appointments', [AppointmentsController::class, 'index'])
+    ->name('appointments')
     ->middleware('auth');
 
-// Contacts
-
-Route::get('contacts', [ContactsController::class, 'index'])
-    ->name('contacts')
+Route::get('appointments/create', [AppointmentsController::class, 'create'])
+    ->name('appointments.create')
     ->middleware('auth');
 
-Route::get('contacts/create', [ContactsController::class, 'create'])
-    ->name('contacts.create')
+Route::post('appointments', [AppointmentsController::class, 'store'])
+    ->name('appointments.store')
     ->middleware('auth');
 
-Route::post('contacts', [ContactsController::class, 'store'])
-    ->name('contacts.store')
+Route::get('appointments/{appointment}/edit', [AppointmentsController::class, 'edit'])
+    ->name('appointments.edit')
     ->middleware('auth');
 
-Route::get('contacts/{contact}/edit', [ContactsController::class, 'edit'])
-    ->name('contacts.edit')
+Route::put('appointments/{appointment}', [AppointmentsController::class, 'update'])
+    ->name('appointments.update')
     ->middleware('auth');
 
-Route::put('contacts/{contact}', [ContactsController::class, 'update'])
-    ->name('contacts.update')
-    ->middleware('auth');
-
-Route::delete('contacts/{contact}', [ContactsController::class, 'destroy'])
-    ->name('contacts.destroy')
-    ->middleware('auth');
-
-Route::put('contacts/{contact}/restore', [ContactsController::class, 'restore'])
-    ->name('contacts.restore')
-    ->middleware('auth');
-
-// Reports
-
-Route::get('reports', [ReportsController::class, 'index'])
-    ->name('reports')
+Route::delete('appointments/{appointment}', [AppointmentsController::class, 'destroy'])
+    ->name('appointments.destroy')
     ->middleware('auth');
 
 // Images

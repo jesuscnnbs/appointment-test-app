@@ -9,7 +9,7 @@ export default () => {
 
   return (
     <div className="flex items-center justify-between w-full p-4 text-sm bg-white border-b md:py-0 md:px-12 d:text-md">
-      <div className="mt-1 mr-4">{auth.user.account.name}</div>
+      <div className="mt-1 mr-4">{auth.user.name}</div>
       <div className="relative">
         <div
           className="flex items-center cursor-pointer select-none group"
@@ -25,7 +25,7 @@ export default () => {
           />
         </div>
         <div className={menuOpened ? '' : 'hidden'}>
-          <div className="absolute top-0 right-0 left-auto z-20 py-2 mt-8 text-sm whitespace-nowrap bg-white rounded shadow-xl">
+          <div className="absolute top-0 right-0 left-auto z-20 py-2 mt-8 text-sm bg-white rounded shadow-xl whitespace-nowrap">
             <Link
               href={route('users.edit', auth.user.id)}
               className="block px-6 py-2 hover:bg-indigo-600 hover:text-white"
