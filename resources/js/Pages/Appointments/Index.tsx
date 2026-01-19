@@ -4,6 +4,7 @@ import FilterBar from '@/Components/FilterBar/FilterBar';
 import Pagination from '@/Components/Pagination/Pagination';
 import { Appointment, PaginatedData } from '@/types';
 import Table from '@/Components/Table/Table';
+import Loader from '@/Components/Loader/Cardio';
 
 function Index() {
   const { appointments } = usePage<{
@@ -11,7 +12,7 @@ function Index() {
   }>().props;
 
   if (!appointments) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   const {
