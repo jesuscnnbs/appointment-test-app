@@ -115,3 +115,19 @@ php artisan make:resource ClientCollection
 
 php artisan make:resource AppointmentCollection
 ```
+
+
+### Permisos por rol
+
+|Funcionalidad|Admin|Reservas|Médico|
+|---|---|---|---|
+|Dashboard completo|✅|✅|❌|
+|Dashboard médico|✅|❌|✅|
+|Listar Clientes|✅|✅|❌|
+|Crear/editar clientes|✅|❌|❌|
+|Exportar clientes|✅|✅|❌|
+|Listar todas las citas|✅|✅|❌|
+|Exportar citas|✅|✅|❌|
+|Ver citas del día|✅|✅|✅|
+|Registrar reconocimientos|✅|❌|✅|
+|Crear/editar citas|✅|✅|❌|
