@@ -76,49 +76,48 @@ Route::get('clients', [ClientsController::class, 'index'])
 
 Route::get('clients/create', [ClientsController::class, 'create'])
     ->name('clients.create')
-    ->middleware('auth', 'role:admin, reservation');
+    ->middleware('auth', 'role:admin,reservation');
 
 Route::post('clients', [ClientsController::class, 'store'])
     ->name('clients.store')
-    ->middleware('auth', 'role:admin, reservation');
+    ->middleware('auth', 'role:admin,reservation');
 
 Route::get('clients/{client}/edit', [ClientsController::class, 'edit'])
     ->name('clients.edit')
-    ->middleware('auth', 'role:admin, reservation');
+    ->middleware('auth', 'role:admin,reservation');
 
 Route::put('clients/{client}', [ClientsController::class, 'update'])
     ->name('clients.update')
-    ->middleware('auth', 'role:admin, reservation');
+    ->middleware('auth', 'role:admin,reservation');
 
 Route::delete('clients/{client}', [ClientsController::class, 'destroy'])
     ->name('clients.destroy')
-    ->middleware('auth', 'role:admin, reservation');
+    ->middleware('auth', 'role:admin,reservation');
 
 // Appointments
 
 Route::get('appointments', [AppointmentsController::class, 'index'])
     ->name('appointments')
-    ->middleware('auth', 'role:admin, reservation, doctor');
+    ->middleware('auth', 'role:admin,reservation,doctor');
 
 Route::get('appointments/create', [AppointmentsController::class, 'create'])
     ->name('appointments.create')
-    ->middleware('auth', 'role:admin, reservation, doctor');
-
+    ->middleware('auth', 'role:admin,reservation,doctor');
 Route::post('appointments', [AppointmentsController::class, 'store'])
     ->name('appointments.store')
-    ->middleware('auth', 'role:admin, reservation, doctor');
+    ->middleware('auth', 'role:admin,reservation,doctor');
 
 Route::get('appointments/{appointment}/edit', [AppointmentsController::class, 'edit'])
     ->name('appointments.edit')
-    ->middleware('auth', 'role:admin, reservation, doctor');
+    ->middleware('auth', 'role:admin,reservation,doctor');
 
 Route::put('appointments/{appointment}', [AppointmentsController::class, 'update'])
     ->name('appointments.update')
-    ->middleware('auth', 'role:admin, reservation, doctor');
+    ->middleware('auth', 'role:admin,reservation,doctor');
 
 Route::delete('appointments/{appointment}', [AppointmentsController::class, 'destroy'])
     ->name('appointments.destroy')
-    ->middleware('auth', 'role:admin, reservation, doctor');
+    ->middleware('auth', 'role:admin,reservation,doctor');
 
 // Images
 
