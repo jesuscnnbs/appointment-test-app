@@ -23,6 +23,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->throttleApi();
 
         $middleware->replace(\Illuminate\Http\Middleware\TrustProxies::class, \App\Http\Middleware\TrustProxies::class);
+
+        $middleware->alias(['role' => \App\Http\Middleware\CheckRole::class]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

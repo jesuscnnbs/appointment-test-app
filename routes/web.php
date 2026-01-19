@@ -42,31 +42,31 @@ Route::get('/', [DashboardController::class, 'index'])
 
 Route::get('users', [UsersController::class, 'index'])
     ->name('users')
-    ->middleware('auth');
+    ->middleware('auth', 'role:admin');
 
 Route::get('users/create', [UsersController::class, 'create'])
     ->name('users.create')
-    ->middleware('auth');
+    ->middleware('auth', 'role:admin');
 
 Route::post('users', [UsersController::class, 'store'])
     ->name('users.store')
-    ->middleware('auth');
+    ->middleware('auth', 'role:admin');
 
 Route::get('users/{user}/edit', [UsersController::class, 'edit'])
     ->name('users.edit')
-    ->middleware('auth');
+    ->middleware('auth', 'role:admin');
 
 Route::put('users/{user}', [UsersController::class, 'update'])
     ->name('users.update')
-    ->middleware('auth');
+    ->middleware('auth', 'role:admin');
 
 Route::delete('users/{user}', [UsersController::class, 'destroy'])
     ->name('users.destroy')
-    ->middleware('auth');
+    ->middleware('auth', 'role:admin');
 
 Route::put('users/{user}/restore', [UsersController::class, 'restore'])
     ->name('users.restore')
-    ->middleware('auth');
+    ->middleware('auth', 'role:admin');
 
 // Clients
 
@@ -76,49 +76,49 @@ Route::get('clients', [ClientsController::class, 'index'])
 
 Route::get('clients/create', [ClientsController::class, 'create'])
     ->name('clients.create')
-    ->middleware('auth');
+    ->middleware('auth', 'role:admin, reservation');
 
 Route::post('clients', [ClientsController::class, 'store'])
     ->name('clients.store')
-    ->middleware('auth');
+    ->middleware('auth', 'role:admin, reservation');
 
 Route::get('clients/{client}/edit', [ClientsController::class, 'edit'])
     ->name('clients.edit')
-    ->middleware('auth');
+    ->middleware('auth', 'role:admin, reservation');
 
 Route::put('clients/{client}', [ClientsController::class, 'update'])
     ->name('clients.update')
-    ->middleware('auth');
+    ->middleware('auth', 'role:admin, reservation');
 
 Route::delete('clients/{client}', [ClientsController::class, 'destroy'])
     ->name('clients.destroy')
-    ->middleware('auth');
+    ->middleware('auth', 'role:admin, reservation');
 
 // Appointments
 
 Route::get('appointments', [AppointmentsController::class, 'index'])
     ->name('appointments')
-    ->middleware('auth');
+    ->middleware('auth', 'role:admin, reservation, doctor');
 
 Route::get('appointments/create', [AppointmentsController::class, 'create'])
     ->name('appointments.create')
-    ->middleware('auth');
+    ->middleware('auth', 'role:admin, reservation, doctor');
 
 Route::post('appointments', [AppointmentsController::class, 'store'])
     ->name('appointments.store')
-    ->middleware('auth');
+    ->middleware('auth', 'role:admin, reservation, doctor');
 
 Route::get('appointments/{appointment}/edit', [AppointmentsController::class, 'edit'])
     ->name('appointments.edit')
-    ->middleware('auth');
+    ->middleware('auth', 'role:admin, reservation, doctor');
 
 Route::put('appointments/{appointment}', [AppointmentsController::class, 'update'])
     ->name('appointments.update')
-    ->middleware('auth');
+    ->middleware('auth', 'role:admin, reservation, doctor');
 
 Route::delete('appointments/{appointment}', [AppointmentsController::class, 'destroy'])
     ->name('appointments.destroy')
-    ->middleware('auth');
+    ->middleware('auth', 'role:admin, reservation, doctor');
 
 // Images
 
