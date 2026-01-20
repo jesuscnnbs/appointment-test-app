@@ -7,8 +7,9 @@ import Table from '@/Components/Table/Table';
 import Loader from '@/Components/Loader/Cardio';
 
 function Index() {
-  const { clients } = usePage<{
+  const { clients, filters } = usePage<{
     clients: PaginatedData<Client>;
+    filters: { search?: string };
   }>().props;
 
   if (!clients) {
@@ -20,18 +21,30 @@ function Index() {
     meta: { links }
   } = clients;
 
+  const exportUrl = route('clients.export', filters);
+
   return (
     <div>
       <h1 className="mb-8 text-3xl font-bold">Clients</h1>
       <div className="flex items-center justify-between mb-6">
         <FilterBar />
-        <Link
-          className="btn-indigo focus:outline-none"
-          href={route('clients.create')}
-        >
-          <span>Crear</span>
-          <span className="hidden md:inline"> Client</span>
-        </Link>
+        <div className="flex gap-2">
+          <a
+            className="btn-indigo focus:outline-none"
+            href={exportUrl}
+            download
+          >
+            <span>Exportar</span>
+            <span className="hidden md:inline"> Excel</span>
+          </a>
+          <Link
+            className="btn-indigo focus:outline-none"
+            href={route('clients.create')}
+          >
+            <span>Crear</span>
+            <span className="hidden md:inline"> Client</span>
+          </Link>
+        </div>
       </div>
       <Table
         columns={[

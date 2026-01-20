@@ -94,6 +94,10 @@ Route::delete('clients/{client}', [ClientsController::class, 'destroy'])
     ->name('clients.destroy')
     ->middleware('auth', 'role:admin');
 
+Route::get('clients/export', [ClientsController::class, 'export'])
+    ->name('clients.export')
+    ->middleware('auth');
+
 // Appointments
 
 Route::get('appointments', [AppointmentsController::class, 'index'])
@@ -117,6 +121,10 @@ Route::put('appointments/{appointment}', [AppointmentsController::class, 'update
 
 Route::delete('appointments/{appointment}', [AppointmentsController::class, 'destroy'])
     ->name('appointments.destroy')
+    ->middleware('auth', 'role:admin,reservation');
+
+Route::get('appointments/export', [AppointmentsController::class, 'export'])
+    ->name('appointments.export')
     ->middleware('auth', 'role:admin,reservation');
 
 // Images

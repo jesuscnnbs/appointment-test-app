@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ClientsExport;
 use App\Http\Resources\ClientCollection;
 use App\Models\Client;
 use App\Services\ClientService;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ClientsController extends Controller
 {
@@ -112,5 +115,15 @@ class ClientsController extends Controller
         $client->delete();
 
         return Redirect::back()->with('success', 'Client deleted.');
+    }
+
+    public function export(): BinaryFileResponse
+    {
+        ini_set('memory_limit', '512M');
+
+        $search = Request::input('search');
+        $filename = 'clients_' . now()->format('Y-m-d_His') . '.xlsx';
+
+        return Excel::download(new ClientsExport($search), $filename);
     }
 }

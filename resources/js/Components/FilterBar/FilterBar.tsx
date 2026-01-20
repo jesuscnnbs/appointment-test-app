@@ -9,7 +9,7 @@ import TextInput from '@/Components/Form/TextInput';
 
 export default function FilterBar() {
   const { filters } = usePage<{
-    filters: { role?: string; search?: string; trashed?: string };
+    filters: { role?: string; search?: string; trashed?: string; estado?: string };
   }>().props;
 
   const [opened, setOpened] = useState(false);
@@ -17,7 +17,8 @@ export default function FilterBar() {
   const [values, setValues] = useState({
     role: filters.role || '', // role is used only on users page
     search: filters.search || '',
-    trashed: filters.trashed || ''
+    trashed: filters.trashed || '',
+    estado: filters.estado || '' // estado is used only on appointments page
   });
 
   const prevValues = usePrevious(values);
@@ -26,7 +27,8 @@ export default function FilterBar() {
     setValues({
       role: '',
       search: '',
-      trashed: ''
+      trashed: '',
+      estado: ''
     });
   }
 
@@ -78,6 +80,22 @@ export default function FilterBar() {
                     { value: '', label: '' },
                     { value: 'user', label: 'User' },
                     { value: 'owner', label: 'Owner' }
+                  ]}
+                />
+              </FieldGroup>
+            )}
+            {filters.hasOwnProperty('estado') && (
+              <FieldGroup label="Estado" name="estado">
+                <SelectInput
+                  name="estado"
+                  value={values.estado}
+                  onChange={handleChange}
+                  options={[
+                    { value: '', label: 'Todos' },
+                    { value: 'pendiente', label: 'Pendiente' },
+                    { value: 'confirmada', label: 'Confirmada' },
+                    { value: 'realizada', label: 'Realizada' },
+                    { value: 'cancelada', label: 'Cancelada' }
                   ]}
                 />
               </FieldGroup>

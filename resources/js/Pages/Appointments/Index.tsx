@@ -7,8 +7,9 @@ import Table from '@/Components/Table/Table';
 import Loader from '@/Components/Loader/Cardio';
 
 function Index() {
-  const { appointments } = usePage<{
+  const { appointments, filters } = usePage<{
     appointments: PaginatedData<Appointment>;
+    filters: { search?: string; estado?: string };
   }>().props;
 
   if (!appointments) {
@@ -35,18 +36,30 @@ function Index() {
     );
   };
 
+  const exportUrl = route('appointments.export', filters);
+
   return (
     <div>
       <h1 className="mb-8 text-3xl font-bold">Appointments</h1>
       <div className="flex items-center justify-between mb-6">
         <FilterBar />
-        <Link
-          className="btn-indigo focus:outline-none"
-          href={route('appointments.create')}
-        >
-          <span>Crear</span>
-          <span className="hidden md:inline">{" "}Appointments</span>
-        </Link>
+        <div className="flex gap-2">
+          <a
+            className="btn-indigo focus:outline-none"
+            href={exportUrl}
+            download
+          >
+            <span>Exportar</span>
+            <span className="hidden md:inline">{" "}Excel</span>
+          </a>
+          <Link
+            className="btn-indigo focus:outline-none"
+            href={route('appointments.create')}
+          >
+            <span>Crear</span>
+            <span className="hidden md:inline">{" "}Appointments</span>
+          </Link>
+        </div>
       </div>
       <Table
         columns={[
