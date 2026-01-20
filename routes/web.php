@@ -54,11 +54,11 @@ Route::post('users', [UsersController::class, 'store'])
 
 Route::get('users/{user}/edit', [UsersController::class, 'edit'])
     ->name('users.edit')
-    ->middleware('auth', 'role:admin');
+    ->middleware('auth', 'role:admin,doctor,reservation');
 
 Route::put('users/{user}', [UsersController::class, 'update'])
     ->name('users.update')
-    ->middleware('auth', 'role:admin');
+    ->middleware('auth', 'role:admin,doctor,reservation');
 
 Route::delete('users/{user}', [UsersController::class, 'destroy'])
     ->name('users.destroy')
