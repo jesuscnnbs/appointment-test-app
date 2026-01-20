@@ -50,7 +50,7 @@ class ClientsController extends Controller
         return Inertia::render('Clients/Create');
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(): RedirectResponse
     {
         $validated = Request::validate([
             'codigo' => ['required', 'string', 'max:255', 'unique:clients'],

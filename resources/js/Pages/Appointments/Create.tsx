@@ -55,7 +55,7 @@ const Create = () => {
           processing={processing}
           onSubmit={handleSubmit}
           onChange={(field, value) => setData(field, value)}
-          submitLabel="Create Appointment"
+          submitLabel="Crear Appointment"
         />
       </div>
     </div>
@@ -68,7 +68,7 @@ const Create = () => {
  * [Learn more](https://inertiajs.com/pages#persistent-layouts)
  */
 Create.layout = (page: React.ReactNode) => (
-  <MainLayout title="Create Appointment" children={page} />
+  <MainLayout title="Crear Appointment" children={page} />
 );
 
 export default Create;

@@ -37,15 +37,15 @@ function Index() {
 
   return (
     <div>
-      <h1 className="mb-8 text-3xl font-bold">Citas</h1>
+      <h1 className="mb-8 text-3xl font-bold">Appointments</h1>
       <div className="flex items-center justify-between mb-6">
         <FilterBar />
         <Link
           className="btn-indigo focus:outline-none"
           href={route('appointments.create')}
         >
-          <span>Create</span>
-          <span className="hidden md:inline"> Citas</span>
+          <span>Crear</span>
+          <span className="hidden md:inline">{" "}Appointments</span>
         </Link>
       </div>
       <Table
@@ -83,7 +83,7 @@ function Index() {
  * [Learn more](https://inertiajs.com/pages#persistent-layouts)
  */
 Index.layout = (page: React.ReactNode) => (
-  <MainLayout title="Citas" children={page} />
+  <MainLayout title="Appointments" children={page} />
 );
 
 export default Index;

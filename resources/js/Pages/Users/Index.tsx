@@ -50,8 +50,9 @@ const Index = () => {
             )
           },
           { label: 'Email', name: 'email' },
+          { label: 'Role', name: 'role' },
           {
-            label: 'Role',
+            label: 'Propietario',
             name: 'owner',
             colSpan: 2,
             renderCell: row => (row.owner ? 'Owner' : 'User')

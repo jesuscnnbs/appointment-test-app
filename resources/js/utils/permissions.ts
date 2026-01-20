@@ -12,7 +12,7 @@ export function canViewClients(user: User): boolean {
 
 // Appointments
 export function canCreateAppointments(user: User): boolean {
-  return user.role === 'admin' || user.role === 'doctor' || user.role === 'reservation';
+  return user.role === 'admin' || user.role === 'reservation';
 }
 
 export function canEditAppointments(user: User): boolean {
@@ -20,7 +20,7 @@ export function canEditAppointments(user: User): boolean {
 }
 
 export function canViewAppointments(user: User): boolean {
-  return user.role === 'admin' || user.role === 'doctor' || user.role === 'reservation';
+  return user.role === 'admin' || user.role === 'reservation';
 }
 
 // Dashboard

@@ -11,9 +11,9 @@ interface ClientStatsProps {
 
 export default function ClientStats({ stats }: ClientStatsProps) {
   return (
-    <div className="p-8 border-b border-indigo-100 bg-gradient-to-br from-blue-50 to-indigo-50">
+    <div className="p-8 border-t border-indigo-200 bg-gradient-to-br from-blue-50 to-indigo-200">
       <h3 className="mb-4 text-lg font-semibold text-gray-900">
-        Reconocimientos
+        Estadísticas del Cliente
       </h3>
       <div className="grid gap-4 mb-4 lg:grid-cols-3">
         <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">

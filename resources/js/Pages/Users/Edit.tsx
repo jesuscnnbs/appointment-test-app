@@ -21,7 +21,7 @@ const Edit = () => {
     last_name: user.last_name || '',
     email: user.email || '',
     password: user.password || '',
-    owner: user.owner ? '1' : '0' || '0',
+    owner: user.owner ? '1' : '0',
     photo: '',
 
     // NOTE: When working with Laravel PUT/PATCH requests and FormData
@@ -71,6 +71,9 @@ const Edit = () => {
           message="This user has been deleted."
           onRestore={restore}
         />
+      )}
+      {user.role && (
+        <div className="mb-4 capitalize">Role: <strong>{user.role}</strong></div>
       )}
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
         <form onSubmit={handleSubmit}>

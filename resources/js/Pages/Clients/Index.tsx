@@ -29,7 +29,7 @@ function Index() {
           className="btn-indigo focus:outline-none"
           href={route('clients.create')}
         >
-          <span>Create</span>
+          <span>Crear</span>
           <span className="hidden md:inline"> Client</span>
         </Link>
       </div>
@@ -55,7 +55,7 @@ function Index() {
  * [Learn more](https://inertiajs.com/pages#persistent-layouts)
  */
 Index.layout = (page: React.ReactNode) => (
-  <MainLayout title="Clients" children={page} />
+  <MainLayout title="Clientes" children={page} />
 );
 
 export default Index;
