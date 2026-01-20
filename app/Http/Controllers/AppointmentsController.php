@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\AppointmentCollection;
 use App\Models\Appointment;
 use App\Models\Client;
+use App\Services\ClientService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
@@ -13,6 +14,10 @@ use Inertia\Response;
 
 class AppointmentsController extends Controller
 {
+    public function __construct(
+        protected ClientService $clientService
+    ) {
+    }
     public function index(): Response
     {
         return Inertia::render('Appointments/Index', [
@@ -42,11 +47,14 @@ class AppointmentsController extends Controller
         return Inertia::render('Appointments/Create', [
             'clients' => Client::orderBy('razon_social')
                 ->get()
-                ->map(fn ($client) => [
-                    'id' => $client->id,
-                    'razon_social' => $client->razon_social,
-                    'codigo' => $client->codigo,
-                ]),
+                ->map(function ($client) {
+                    return [
+                        'id' => $client->id,
+                        'razon_social' => $client->razon_social,
+                        'codigo' => $client->codigo,
+                        'reconocimientos_stats' => $this->clientService->getEstadisticasReconocimientos($client),
+                    ];
+                }),
         ]);
     }
 
@@ -82,11 +90,15 @@ class AppointmentsController extends Controller
             ],
             'clients' => Client::orderBy('razon_social')
                 ->get()
-                ->map(fn ($client) => [
-                    'id' => $client->id,
-                    'razon_social' => $client->razon_social,
-                    'codigo' => $client->codigo,
-                ]),
+                ->map(function ($client) {
+                    return [
+                        'id' => $client->id,
+                        'razon_social' => $client->razon_social,
+                        'codigo' => $client->codigo,
+                        'reconocimientos_stats' => $this->clientService->getEstadisticasReconocimientos($client),
+                    ];
+                }),
+            'clientStats' => $this->clientService->getEstadisticasReconocimientos($appointment->client),
         ]);
     }
 

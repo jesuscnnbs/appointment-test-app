@@ -6,13 +6,29 @@ import Form from '@/Components/Appointments/Form';
 import { Appointment } from '@/types';
 
 const Edit = () => {
-  const { appointment, clients } = usePage<{
+  const { appointment, clients, clientStats } = usePage<{
     appointment: Appointment;
     clients: Array<{
       id: number;
       razon_social: string;
       codigo: string;
+      reconocimientos_stats?: {
+        incluidos: number;
+        realizados: number;
+        reservados: number;
+        comprometidos: number;
+        disponibles: number;
+        porcentaje_uso: number;
+      };
     }>;
+    clientStats?: {
+      incluidos: number;
+      realizados: number;
+      reservados: number;
+      comprometidos: number;
+      disponibles: number;
+      porcentaje_uso: number;
+    };
   }>().props;
 
   const { data, setData, errors, post, processing } = useForm({
@@ -66,6 +82,7 @@ const Edit = () => {
           onSubmit={handleSubmit}
           onChange={(field, value) => setData(field, value)}
           submitLabel="Update Appointment"
+          clientStats={clientStats}
         />
         <div className="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
           <DeleteButton onDelete={destroy}>

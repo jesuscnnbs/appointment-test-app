@@ -2,6 +2,8 @@ import LoadingButton from '@/Components/Button/LoadingButton';
 import TextInput from '@/Components/Form/TextInput';
 import SelectInput from '@/Components/Form/SelectInput';
 import FieldGroup from '@/Components/Form/FieldGroup';
+import ClientStats from '@/Components/Clients/ClientStats';
+import { useState, useEffect } from 'react';
 
 interface FormProps {
   data: {
@@ -17,12 +19,28 @@ interface FormProps {
     id: number;
     razon_social: string;
     codigo: string;
+    reconocimientos_stats?: {
+      incluidos: number;
+      realizados: number;
+      reservados: number;
+      comprometidos: number;
+      disponibles: number;
+      porcentaje_uso: number;
+    };
   }>;
   errors: Partial<Record<keyof FormProps['data'], string>>;
   processing: boolean;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   onChange: (field: keyof FormProps['data'], value: string | number) => void;
   submitLabel?: string;
+  clientStats?: {
+    incluidos: number;
+    realizados: number;
+    reservados: number;
+    comprometidos: number;
+    disponibles: number;
+    porcentaje_uso: number;
+  };
 }
 
 export default function Form({
@@ -32,8 +50,21 @@ export default function Form({
   processing,
   onSubmit,
   onChange,
-  submitLabel = 'Save Appointment'
+  submitLabel = 'Save Appointment',
+  clientStats
 }: FormProps) {
+  const [selectedClientStats, setSelectedClientStats] = useState(clientStats);
+
+  // Update stats when client selection changes
+  useEffect(() => {
+    if (data.client_id) {
+      const client = clients.find(c => c.id === Number(data.client_id));
+      if (client?.reconocimientos_stats) {
+        setSelectedClientStats(client.reconocimientos_stats);
+      }
+    }
+  }, [data.client_id, clients]);
+
   return (
     <form onSubmit={onSubmit}>
       <div className="grid gap-8 p-8 lg:grid-cols-2">
@@ -147,6 +178,7 @@ export default function Form({
           />
         </FieldGroup>
       </div>
+      {selectedClientStats && <ClientStats stats={selectedClientStats} />}
       <div className="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">
         <LoadingButton
           loading={processing}

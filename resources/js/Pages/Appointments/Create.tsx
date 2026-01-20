@@ -8,6 +8,14 @@ const Create = () => {
       id: number;
       razon_social: string;
       codigo: string;
+      reconocimientos_stats?: {
+        incluidos: number;
+        realizados: number;
+        reservados: number;
+        comprometidos: number;
+        disponibles: number;
+        porcentaje_uso: number;
+      };
     }>;
   }>().props;
 
