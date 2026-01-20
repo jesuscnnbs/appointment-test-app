@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ClientCollection;
 use App\Models\Client;
+use App\Services\ClientService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
@@ -12,12 +13,26 @@ use Inertia\Response;
 
 class ClientsController extends Controller
 {
+    public function __construct(
+        protected ClientService $clientService
+    ) {
+    }
     public function index(): Response
     {
         return Inertia::render('Clients/Index', [
             'filters' => Request::all('search'),
             'clients' => new ClientCollection(
                 Client::query()
+                    ->withSum([
+                        'appointments as reconocimientos_realizados_sum' => function ($query) {
+                            $query->where('estado', 'realizada');
+                        }
+                    ], 'reconocimientos_realizados')
+                    ->withSum([
+                        'appointments as reconocimientos_reservados_sum' => function ($query) {
+                            $query->whereIn('estado', ['pendiente', 'confirmada']);
+                        }
+                    ], 'reconocimientos_reservados')
                     ->orderBy('razon_social')
                     ->when(Request::input('search'), function ($query, $search) {
                         $query->where('razon_social', 'like', "%{$search}%")
@@ -68,6 +83,7 @@ class ClientsController extends Controller
                 'fecha_inicio_contrato' => $client->fecha_inicio_contrato->format('Y-m-d'),
                 'fecha_expiracion_contrato' => $client->fecha_expiracion_contrato->format('Y-m-d'),
                 'reconocimientos_incluidos' => $client->reconocimientos_incluidos,
+                'reconocimientos_stats' => $this->clientService->getEstadisticasReconocimientos($client),
             ],
         ]);
     }

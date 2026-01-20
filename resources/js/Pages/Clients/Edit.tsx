@@ -62,6 +62,7 @@ const Edit = () => {
           onSubmit={handleSubmit}
           onChange={(field, value) => setData(field, value)}
           submitLabel="Update Client"
+          reconocimientos_stats={client.reconocimientos_stats}
         />
         <div className="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
           <DeleteButton onDelete={destroy}>

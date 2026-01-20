@@ -23,6 +23,16 @@ export interface Client {
   fecha_inicio_contrato: string;
   fecha_expiracion_contrato: string;
   reconocimientos_incluidos: number;
+  reconocimientos_utilizados?: number;
+  reconocimientos_disponibles?: number;
+  reconocimientos_stats?: {
+    incluidos: number;
+    realizados: number;
+    reservados: number;
+    comprometidos: number;
+    disponibles: number;
+    porcentaje_uso: number;
+  };
   created_at: string;
   updated_at: string;
   appointments?: Appointment[];
