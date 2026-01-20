@@ -76,7 +76,7 @@ class AppointmentsController extends Controller
                 'fecha' => $appointment->fecha->format('Y-m-d'),
                 'reconocimientos_reservados' => $appointment->reconocimientos_reservados,
                 'reconocimientos_realizados' => $appointment->reconocimientos_realizados,
-                'hora_inicio' => $appointment->hora_inicio,
+                'hora_inicio' => $appointment->hora_inicio->format('H:i'),
                 'estado' => $appointment->estado,
                 'notas' => $appointment->notas,
             ],
