@@ -23,7 +23,9 @@ export interface Client {
   fecha_inicio_contrato: string;
   fecha_expiracion_contrato: string;
   reconocimientos_incluidos: number;
-  reconocimientos_utilizados?: number;
+  reconocimientos_realizados?: number;
+  reconocimientos_reservados?: number;
+  reconocimientos_comprometidos?: number;
   reconocimientos_disponibles?: number;
   reconocimientos_stats?: {
     incluidos: number;

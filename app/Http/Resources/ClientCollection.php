@@ -15,9 +15,11 @@ class ClientCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return $this->collection->map(function ($client) {
-            $utilizados = $client->appointments_reconocimientos_realizados_sum ?? 0;
             $incluidos = $client->reconocimientos_incluidos;
-            $disponibles = max(0, $incluidos - $utilizados);
+            $realizados = $client->reconocimientos_realizados_sum ?? 0;
+            $reservados = $client->reconocimientos_reservados_sum ?? 0;
+            $comprometidos = $realizados + $reservados;
+            $disponibles = max(0, $incluidos - $comprometidos);
 
             return [
                 'id' => $client->id,
@@ -30,7 +32,9 @@ class ClientCollection extends ResourceCollection
                 'fecha_inicio_contrato' => $client->fecha_inicio_contrato,
                 'fecha_expiracion_contrato' => $client->fecha_expiracion_contrato,
                 'reconocimientos_incluidos' => $incluidos,
-                'reconocimientos_utilizados' => $utilizados,
+                'reconocimientos_realizados' => $realizados,
+                'reconocimientos_reservados' => $reservados,
+                'reconocimientos_comprometidos' => $comprometidos,
                 'reconocimientos_disponibles' => $disponibles,
             ];
         })->toArray();
