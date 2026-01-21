@@ -34,12 +34,12 @@ class DatabaseSeeder extends Seeder
             'role' => 'doctor',
         ]);
 
-        // Create clients with appointments
-        Client::factory(1000)
+        // Create clients with appointments (reduced for demo)
+        Client::factory(50)
             ->create()
             ->each(function ($client) {
-                // Each client has 30 appointments
-                Appointment::factory(30)->create([
+                // Each client has 3-5 appointments (random)
+                Appointment::factory(rand(3, 5))->create([
                     'client_id' => $client->id,
                 ]);
             });
