@@ -1,8 +1,6 @@
-# Ping CRM React
+# RESERVEYTE CRM Laravel + React + Inertia
 
-A demo application to illustrate how [Inertia.js](https://inertiajs.com/) works with [Laravel](https://laravel.com/) and [React](https://reactjs.org/).
-
-> This is a port of the original [Ping CRM](https://github.com/inertiajs/pingcrm) written in Laravel and Vue.
+A fork of a demo application to illustrate how [Inertia.js](https://inertiajs.com/) works with [Laravel](https://laravel.com/) and [React](https://reactjs.org/).
 
 ![](https://raw.githubusercontent.com/liorocks/pingcrm-react/master/screenshot.png)
 
@@ -11,8 +9,8 @@ A demo application to illustrate how [Inertia.js](https://inertiajs.com/) works 
 Clone the repo locally:
 
 ```sh
-git clone https://github.com/liorocks/pingcrm-react.git
-cd pingcrm-react
+git clone https://github.com/jesuscnnbs/appointment-test-app.git
+cd appointment-test-app
 ```
 
 Install PHP dependencies:
@@ -69,14 +67,14 @@ Run artisan server:
 php artisan serve
 ```
 
-You're ready to go! [Visit Ping CRM](http://127.0.0.1:8000/) in your browser, and login with:
+You're ready to go! [RESERVEYTE](http://127.0.0.1:8000/) in your browser, and login with:
 
 - **Username:** admin@example.com
 - **Password:** secret
 
 ## Running tests
 
-To run the Ping CRM tests, run:
+To run the RESERVEYTE tests, run:
 
 ```
 php artisan test
@@ -87,9 +85,10 @@ php artisan test
 - Original work by Jonathan Reinink (@reinink) and contributors
 - Port to Ruby on Rails by Georg Ledermann (@ledermann)
 - Port to React by Lio (@liorocks)
+- Reservation test app (@jesuscnnbs)
 
-
-### Modelos
+### Modelos (Algunos comandos utilizados para crear modelos y controladores)
+No hay que ejecutarlos en local.
 
 Creamos el modelo Cliente con migración
 ```
@@ -121,8 +120,7 @@ php artisan make:resource AppointmentCollection
 
 |Funcionalidad|Admin|Reservas|Médico|
 |---|---|---|---|
-|Dashboard completo|✅|✅|❌|
-|Dashboard médico|✅|❌|✅|
+|Dashboard|✅|✅|✅|
 |Listar Clientes|✅|✅|❌|
 |Crear/editar clientes|✅|❌|❌|
 |Exportar clientes|✅|✅|❌|
@@ -130,4 +128,5 @@ php artisan make:resource AppointmentCollection
 |Exportar citas|✅|✅|❌|
 |Ver citas del día|✅|✅|✅|
 |Registrar reconocimientos|✅|❌|✅|
-|Crear/editar citas|✅|✅|❌|
+|Crear citas|✅|✅|❌|
+|Editar citas|✅|✅|✅|
