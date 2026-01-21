@@ -9,7 +9,7 @@ import TextInput from '@/Components/Form/TextInput';
 
 export default function FilterBar() {
   const { filters } = usePage<{
-    filters: { role?: string; search?: string; trashed?: string; estado?: string };
+    filters: { role?: string; search?: string; trashed?: string; estado?: string; fecha_desde?: string; fecha_hasta?: string; municipio?: string };
   }>().props;
 
   const [opened, setOpened] = useState(false);
@@ -18,7 +18,10 @@ export default function FilterBar() {
     role: filters.role || '', // role is used only on users page
     search: filters.search || '',
     trashed: filters.trashed || '',
-    estado: filters.estado || '' // estado is used only on appointments page
+    estado: filters.estado || '', // estado is used only on appointments page
+    fecha_desde: filters.fecha_desde || '', // fecha_desde is used only on appointments page
+    fecha_hasta: filters.fecha_hasta || '', // fecha_hasta is used only on appointments page
+    municipio: filters.municipio || '' // municipio is used only on clients page
   });
 
   const prevValues = usePrevious(values);
@@ -28,7 +31,10 @@ export default function FilterBar() {
       role: '',
       search: '',
       trashed: '',
-      estado: ''
+      estado: '',
+      fecha_desde: '',
+      fecha_hasta: '',
+      municipio: ''
     });
   }
 
@@ -97,6 +103,37 @@ export default function FilterBar() {
                     { value: 'realizada', label: 'Realizada' },
                     { value: 'cancelada', label: 'Cancelada' }
                   ]}
+                />
+              </FieldGroup>
+            )}
+            {filters.hasOwnProperty('fecha_desde') && (
+              <FieldGroup label="Fecha Desde" name="fecha_desde">
+                <TextInput
+                  name="fecha_desde"
+                  type="date"
+                  value={values.fecha_desde}
+                  onChange={handleChange}
+                />
+              </FieldGroup>
+            )}
+            {filters.hasOwnProperty('fecha_hasta') && (
+              <FieldGroup label="Fecha Hasta" name="fecha_hasta">
+                <TextInput
+                  name="fecha_hasta"
+                  type="date"
+                  value={values.fecha_hasta}
+                  onChange={handleChange}
+                />
+              </FieldGroup>
+            )}
+            {filters.hasOwnProperty('municipio') && (
+              <FieldGroup label="Municipio" name="municipio">
+                <TextInput
+                  name="municipio"
+                  type="text"
+                  placeholder="Buscar por municipio..."
+                  value={values.municipio}
+                  onChange={handleChange}
                 />
               </FieldGroup>
             )}

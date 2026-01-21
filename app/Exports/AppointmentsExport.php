@@ -13,11 +13,15 @@ class AppointmentsExport implements FromQuery, WithHeadings, WithMapping, Should
 {
     protected $search;
     protected $estado;
+    protected $fechaDesde;
+    protected $fechaHasta;
 
-    public function __construct($search = null, $estado = null)
+    public function __construct($search = null, $estado = null, $fechaDesde = null, $fechaHasta = null)
     {
         $this->search = $search;
         $this->estado = $estado;
+        $this->fechaDesde = $fechaDesde;
+        $this->fechaHasta = $fechaHasta;
     }
 
     /**
@@ -35,6 +39,12 @@ class AppointmentsExport implements FromQuery, WithHeadings, WithMapping, Should
             })
             ->when($this->estado, function ($query, $estado) {
                 $query->where('estado', $estado);
+            })
+            ->when($this->fechaDesde, function ($query, $fechaDesde) {
+                $query->whereDate('fecha', '>=', $fechaDesde);
+            })
+            ->when($this->fechaHasta, function ($query, $fechaHasta) {
+                $query->whereDate('fecha', '<=', $fechaHasta);
             })
             ->orderBy('fecha', 'desc')
             ->orderBy('hora_inicio', 'desc');

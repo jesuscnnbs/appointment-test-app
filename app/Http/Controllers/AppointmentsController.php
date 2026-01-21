@@ -24,7 +24,7 @@ class AppointmentsController extends Controller
     public function index(): Response
     {
         return Inertia::render('Appointments/Index', [
-            'filters' => Request::all('search', 'estado'),
+            'filters' => Request::all('search', 'estado', 'fecha_desde', 'fecha_hasta'),
             'appointments' => new AppointmentCollection(
                 Appointment::query()
                     ->with('client:id,razon_social')
@@ -38,6 +38,12 @@ class AppointmentsController extends Controller
                     })
                     ->when(Request::input('estado'), function ($query, $estado) {
                         $query->where('estado', $estado);
+                    })
+                    ->when(Request::input('fecha_desde'), function ($query, $fechaDesde) {
+                        $query->whereDate('fecha', '>=', $fechaDesde);
+                    })
+                    ->when(Request::input('fecha_hasta'), function ($query, $fechaHasta) {
+                        $query->whereDate('fecha', '<=', $fechaHasta);
                     })
                     ->paginate(10)
                     ->appends(Request::all())
@@ -135,8 +141,10 @@ class AppointmentsController extends Controller
 
         $search = Request::input('search');
         $estado = Request::input('estado');
+        $fechaDesde = Request::input('fecha_desde');
+        $fechaHasta = Request::input('fecha_hasta');
         $filename = 'appointments_' . now()->format('Y-m-d_His') . '.xlsx';
 
-        return Excel::download(new AppointmentsExport($search, $estado), $filename);
+        return Excel::download(new AppointmentsExport($search, $estado, $fechaDesde, $fechaHasta), $filename);
     }
 }
