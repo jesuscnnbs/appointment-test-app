@@ -23,7 +23,7 @@ class ClientsController extends Controller
     public function index(): Response
     {
         return Inertia::render('Clients/Index', [
-            'filters' => Request::all('search'),
+            'filters' => Request::all('search', 'municipio'),
             'clients' => new ClientCollection(
                 Client::query()
                     ->withSum([
@@ -41,6 +41,9 @@ class ClientsController extends Controller
                         $query->where('razon_social', 'like', "%{$search}%")
                             ->orWhere('codigo', 'like', "%{$search}%")
                             ->orWhere('cif', 'like', "%{$search}%");
+                    })
+                    ->when(Request::input('municipio'), function ($query, $municipio) {
+                        $query->where('municipio', 'like', "%{$municipio}%");
                     })
                     ->paginate(10)
                     ->appends(Request::all())
@@ -122,8 +125,9 @@ class ClientsController extends Controller
         ini_set('memory_limit', '512M');
 
         $search = Request::input('search');
+        $municipio = Request::input('municipio');
         $filename = 'clients_' . now()->format('Y-m-d_His') . '.xlsx';
 
-        return Excel::download(new ClientsExport($search), $filename);
+        return Excel::download(new ClientsExport($search, $municipio), $filename);
     }
 }

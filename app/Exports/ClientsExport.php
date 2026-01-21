@@ -12,10 +12,12 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 class ClientsExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize, WithChunkReading
 {
     protected $search;
+    protected $municipio;
 
-    public function __construct($search = null)
+    public function __construct($search = null, $municipio = null)
     {
         $this->search = $search;
+        $this->municipio = $municipio;
     }
 
     /**
@@ -30,6 +32,9 @@ class ClientsExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoS
                       ->orWhere('codigo', 'like', "%{$search}%")
                       ->orWhere('cif', 'like', "%{$search}%");
                 });
+            })
+            ->when($this->municipio, function ($query, $municipio) {
+                $query->where('municipio', 'like', "%{$municipio}%");
             })
             ->orderBy('razon_social');
     }

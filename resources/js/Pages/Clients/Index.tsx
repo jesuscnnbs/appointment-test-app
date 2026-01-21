@@ -9,7 +9,7 @@ import Loader from '@/Components/Loader/Cardio';
 function Index() {
   const { clients, filters } = usePage<{
     clients: PaginatedData<Client>;
-    filters: { search?: string };
+    filters: { search?: string; municipio?: string };
   }>().props;
 
   if (!clients) {

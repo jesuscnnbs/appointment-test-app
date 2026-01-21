@@ -61,7 +61,8 @@ export default function FilterBar() {
       [name]: value
     }));
 
-    if (opened) setOpened(false);
+    const isSelectInput = e.target.tagName === 'SELECT';
+    if (opened && isSelectInput) setOpened(false);
   }
 
   return (
@@ -75,7 +76,7 @@ export default function FilterBar() {
             onClick={() => setOpened(false)}
             className="fixed inset-0 z-20 bg-black opacity-25"
           />
-          <div className="relative z-30 w-64 px-4 py-6 mt-2 bg-white rounded shadow-lg space-y-4">
+          <div className="relative z-30 w-64 px-4 py-6 mt-2 space-y-4 bg-white rounded shadow-lg">
             {filters.hasOwnProperty('role') && (
               <FieldGroup label="Role" name="role">
                 <SelectInput
